@@ -36,8 +36,8 @@
 //
 
 #include "GB2ShapeCache.h"
-#include "Box2D.h"
-#include "..\cocoa\CCNS.h"
+#include "Box2D/Box2D.h"
+#include "base/CCNS.h"
 
 using namespace cocos2d;
 
@@ -121,7 +121,7 @@ cocos2d::CCPoint GB2ShapeCache::anchorPointForShape(const std::string &shape) {
 
 void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
 
-	CCDictionary *dict = CCDictionary::dictionaryWithContentsOfFileThreadSafe(plist.c_str());
+    CCDictionary *dict = CCDictionary::createWithContentsOfFileThreadSafe(plist.c_str());
 	CCAssert(dict != NULL, "Shape-file not found"); // not triggered - cocos2dx delivers empty dict if non was found
     CCAssert(dict->count() != 0, "plist file empty or not existing");
 	
@@ -134,7 +134,7 @@ void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
 
     b2Vec2 vertices[b2_maxPolygonVertices];
 
-	CCDictElement* pElement = NULL;
+	DictElement* pElement = NULL;
 	CCDICT_FOREACH(bodyDict, pElement)
 	{
 		BodyDef *bodyDef = new BodyDef();
@@ -142,7 +142,7 @@ void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
 		CCString *bodyName = ccs(pElement->getStrKey());
 
 		CCDictionary *bodyData = (CCDictionary *)pElement->getObject();
-		bodyDef->anchorPoint = CCPointFromString(static_cast<CCString *>(bodyData->objectForKey("anchorpoint"))->getCString());
+		bodyDef->anchorPoint = PointFromString(static_cast<CCString *>(bodyData->objectForKey("anchorpoint"))->getCString());        
 		
 		CCArray *fixtureList = (CCArray *)bodyData->objectForKey("fixtures");
 		FixtureDef **nextFixtureDef = &(bodyDef->fixtures);
@@ -197,7 +197,7 @@ void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
 					{
 
 						CCString *pStr = (CCString *)offset;
-						CCPoint p = CCPointFromString(pStr->getCString());
+						CCPoint p = PointFromString(pStr->getCString());
 
 						vertices[vindex].x = (p.x / ptmRatio) ; 
                         vertices[vindex].y = (p.y / ptmRatio) ; 
@@ -222,7 +222,7 @@ void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
                 b2CircleShape *circleShape = new b2CircleShape();
 				
                 circleShape->m_radius = static_cast<CCString *>(circleData->objectForKey("radius"))->floatValue() / ptmRatio;
-				CCPoint p = CCPointFromString(static_cast<CCString *>(circleData->objectForKey("position"))->getCString());
+				CCPoint p = PointFromString(static_cast<CCString *>(circleData->objectForKey("position"))->getCString());
                 circleShape->m_p = b2Vec2(p.x / ptmRatio, p.y / ptmRatio);
                 fix->fixture.shape = circleShape;
 				

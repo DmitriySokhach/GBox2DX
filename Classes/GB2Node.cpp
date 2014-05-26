@@ -22,7 +22,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-#include "Box2D.h"
+#include "Box2D/Box2D.h"
 #include "GB2Node.h"
 #include "GB2Engine.h"
 #include "GB2ShapeCache.h"
@@ -409,7 +409,7 @@ void GB2Node::setLinearVelocity(b2Vec2 velocity)
 void GB2Node::applyLinearImpulse(b2Vec2 impulse, b2Vec2 point)
 {
     assert(_body);
-    _body->ApplyLinearImpulse(impulse, point);
+    _body->ApplyLinearImpulse(impulse, point, true);
 }
 
 b2Vec2 GB2Node::physicsPosition()
@@ -444,7 +444,7 @@ bool GB2Node::isAwake()
 void GB2Node::applyForce(b2Vec2 force, b2Vec2 point)
 {
     assert(_body);
-    _body->ApplyForce(force, point);
+    _body->ApplyForce(force, point, true);
 }
 
 float GB2Node::angle()

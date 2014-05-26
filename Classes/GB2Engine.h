@@ -29,7 +29,7 @@
 
 #include "GB2Config.h"
 #include "cocos2d.h"
-#include "../../Box2D/Box2D.h"
+#include "Box2D/Box2D.h"
 #include "GB2WorldContactListener.h"
 
 NS_GB_BEGIN

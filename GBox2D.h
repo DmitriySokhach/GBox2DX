@@ -25,9 +25,6 @@
 #ifndef GBOX2D_H
 #define GBOX2D_H
 
-#include "cocos2d.h"
-#include "Box2D.h"
-
 #include "Classes\GB2Config.h"
 
 #include "Classes\GB2Collision.h"

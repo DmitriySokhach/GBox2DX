@@ -1,7 +1,7 @@
 #include "GB2DebugDrawLayer.h"
 #include "GB2Engine.h"
 #include "GLES-Render.h"
-#include "Box2D.h"
+#include "Box2D/Box2D.h"
 #include "GB2Helper.h"
 
 using namespace cocos2d;
@@ -56,27 +56,27 @@ GB2DebugDrawLayer::~GB2DebugDrawLayer()
     
 }
 
-void GB2DebugDrawLayer::draw()
+void gbox2d::GB2DebugDrawLayer::draw(Renderer *renderer, const Mat4& transform, bool transformUpdated)
 {
-	// store render state
-	//glDisable(GL_TEXTURE_2D);
-	//glDisableVertexAttribArray(0);
-	    
+    // store render state
+    //glDisable(GL_TEXTURE_2D);
+    //glDisableVertexAttribArray(0);
+
     // draw the world stuff
-	
-    
+
+
     // restore render state
-	//glEnable(GL_TEXTURE_2D);
-	//glEnableVertexAttribArray(0);
-	//ccGLEnableVertexAttribs(0);
+    //glEnable(GL_TEXTURE_2D);
+    //glEnableVertexAttribArray(0);
+    //ccGLEnableVertexAttribs(0);
 
-	CCLayer::draw();
+    CCLayer::draw();
 
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+    ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
 
     kmGLPushMatrix();
 
-   _world->DrawDebugData();
+    _world->DrawDebugData();
 
     kmGLPopMatrix();
 

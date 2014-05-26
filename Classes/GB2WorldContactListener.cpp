@@ -27,7 +27,7 @@
  THE SOFTWARE.
  */
 
-#include "Box2D.h"
+#include "Box2D/Box2D.h"
 #include "GB2Collision.h"
 #include "GB2CollisionRegistry.h"
 #include "GB2WorldContactListener.h"

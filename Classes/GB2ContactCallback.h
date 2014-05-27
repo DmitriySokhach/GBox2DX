@@ -58,7 +58,7 @@ public:
     virtual ~GB2ContactCallbackBase()
     {}
 
-    virtual void collide( GB2Node *receiver, GB2Node *otherObject, GB2Collision *c ) = 0;
+    virtual void collide(GB2Node *receiver, GB2Node *otherObject, GB2Collision *c) = 0;
 };
 
 /**
@@ -73,9 +73,9 @@ public:
      * Register a callback function to be called from collide()
      * @param ftp pointer to the method to call
      */
-    GB2ContactCallback(void(T::*fpt)( GB2Node *otherObject, GB2Collision *c ))
+    GB2ContactCallback(void(T::*fpt)(GB2Node *otherObject, GB2Collision *c))
     {
-        mFpt=fpt;
+        mFpt = fpt;
     };
 
     /**
@@ -92,7 +92,7 @@ public:
     };
 
 private:
-   void(T::*mFpt)(GB2Node *otherObject, GB2Collision *c);
+    void(T::*mFpt)(GB2Node *otherObject, GB2Collision *c);
 };
 
 /**

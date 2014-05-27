@@ -1,6 +1,5 @@
 #include "GB2DebugDrawLayer.h"
 #include "GB2Engine.h"
-#include "GLES-Render.h"
 #include "Box2D/Box2D.h"
 #include "GB2Helper.h"
 
@@ -8,38 +7,36 @@ using namespace cocos2d;
 
 USING_NS_GB;
 
-enum  	{ 
-  e_shapeBit = 0x0001, e_jointBit = 0x0002, e_aabbBit = 0x0004, e_pairBit = 0x0008, 
-  e_centerOfMassBit = 0x0010 
+enum  	{
+    e_shapeBit = 0x0001, e_jointBit = 0x0002, e_aabbBit = 0x0004, e_pairBit = 0x0008,
+    e_centerOfMassBit = 0x0010
 };
 
 GB2DebugDrawLayer *GB2DebugDrawLayer::init()
 {
-    
-	GB2DebugDrawLayer *ddlayer = new GB2DebugDrawLayer();
-	
-	if(ddlayer)
-    {
+    GB2DebugDrawLayer *ddlayer = new GB2DebugDrawLayer();
 
+    if (ddlayer)
+    {
         // take world from the singleton
         //world = [GB2Engine sharedInstance].world;
-		b2World *bworld = GB2Engine::sharedInstance()->getworld();
+        b2World *bworld = GB2Engine::sharedInstance()->getworld();
 
         // Enable debug draw
-		GLESDebugDraw *debugDraw = new GLESDebugDraw( PTM_RATIO );
-        
-		// Set the flags
+        GLESDebugDraw *debugDraw = new GLESDebugDraw(PTM_RATIO);
+
+        // Set the flags
         uint32 flags = 0;
-		
+
         flags += e_shapeBit;
         //flags += e_aabbBit;
         flags += e_centerOfMassBit;
-        
+
         debugDraw->SetFlags(flags);
 
-		bworld->SetDebugDraw(debugDraw);
+        bworld->SetDebugDraw(debugDraw);
 
-		ddlayer->setWorld(bworld);
+        ddlayer->setWorld(bworld);
     }
     return ddlayer;
 }
@@ -48,12 +45,11 @@ GB2DebugDrawLayer::~GB2DebugDrawLayer()
 {
     // remove debug draw from the world
     _world->SetDebugDraw(0);
-    
+
     // delete debug draw
     delete _debugDraw;
-    
+
     // dealloc super objects
-    
 }
 
 void gbox2d::GB2DebugDrawLayer::draw(Renderer *renderer, const Mat4& transform, bool transformUpdated)
@@ -64,7 +60,6 @@ void gbox2d::GB2DebugDrawLayer::draw(Renderer *renderer, const Mat4& transform, 
 
     // draw the world stuff
 
-
     // restore render state
     //glEnable(GL_TEXTURE_2D);
     //glEnableVertexAttribArray(0);
@@ -72,13 +67,13 @@ void gbox2d::GB2DebugDrawLayer::draw(Renderer *renderer, const Mat4& transform, 
 
     CCLayer::draw();
 
-    ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
+    GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
 
-    kmGLPushMatrix();
+    glPushMatrix();
 
     _world->DrawDebugData();
 
-    kmGLPopMatrix();
+    glPopMatrix();
 
     CHECK_GL_ERROR_DEBUG();
 }

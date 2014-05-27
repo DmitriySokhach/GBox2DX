@@ -1,8 +1,8 @@
 /*
  MIT License
- 
+
  Copyright (c) 2010 Andreas Loew / www.code-and-web.de
- 
+
  For more information about htis module visit
  http://www.PhysicsEditor.de
 
@@ -14,10 +14,10 @@
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -42,7 +42,7 @@ GB2WorldContactListener::GB2WorldContactListener()
 {
 }
 
-GB2WorldContactListener::~GB2WorldContactListener() 
+GB2WorldContactListener::~GB2WorldContactListener()
 {
 }
 
@@ -50,41 +50,41 @@ GB2WorldContactListener::~GB2WorldContactListener()
  * Calls constructed selectors on the objects involved in the collision
  *
  * If a is an object of type A, and b is object of type B this method will
- * call 
+ * call
  *
  * typed selector:
  *    a::<contactType>ContactWithB(GB2Node* otherObject, GB2Collision *c)
  *    b::<contactType>ContactWithA(GB2Node* otherObject, GB2Collision *c)
  *
- * @param contact the b2Contact 
+ * @param contact the b2Contact
  * @param contactType string containing "begin", "end", "pre" or "post"
  */
 void GB2WorldContactListener::notifyObjects(b2Contact *contact, std::string contactType)
 {
-	GB2Collision c;
-	c.setContact(contact);
+    GB2Collision c;
+    c.setContact(contact);
 
-	b2Body *bodyA = contact->GetFixtureA()->GetBody();
-	b2Body *bodyB = contact->GetFixtureB()->GetBody();
-	
-	GB2Node *nodeA = (GB2Node *)(bodyA->GetUserData());
-	GB2Node *nodeB = (GB2Node *)(bodyB->GetUserData());
+    b2Body *bodyA = contact->GetFixtureA()->GetBody();
+    b2Body *bodyB = contact->GetFixtureB()->GetBody();
 
-	GB2CollisionRegistry *r = GB2CollisionRegistry::sharedInstance();
+    GB2Node *nodeA = (GB2Node *)(bodyA->GetUserData());
+    GB2Node *nodeB = (GB2Node *)(bodyB->GetUserData());
 
-	r->callCollision(nodeA, nodeB, &c, contactType.c_str());
-	r->callCollision(nodeB, nodeA, &c, contactType.c_str());
+    GB2CollisionRegistry *r = GB2CollisionRegistry::sharedInstance();
+
+    r->callCollision(nodeA, nodeB, &c, contactType.c_str());
+    r->callCollision(nodeB, nodeA, &c, contactType.c_str());
 }
 
 /// Called when two fixtures begin to touch.
-void GB2WorldContactListener::BeginContact(b2Contact* contact) 
+void GB2WorldContactListener::BeginContact(b2Contact* contact)
 {
-    notifyObjects(contact, "begin");        
+    notifyObjects(contact, "begin");
 }
 
 /// Called when two fixtures cease to touch.
-void GB2WorldContactListener::EndContact(b2Contact* contact) 
-{ 
+void GB2WorldContactListener::EndContact(b2Contact* contact)
+{
     notifyObjects(contact, "end");
 }
 
@@ -103,7 +103,7 @@ void GB2WorldContactListener::PreSolve(b2Contact* contact, const b2Manifold* old
     B2_NOT_USED(contact);
     B2_NOT_USED(oldManifold);
 
-    notifyObjects(contact, "pre");        
+    notifyObjects(contact, "pre");
 }
 
 /// This lets you inspect a contact after the solver is finished. This is useful
@@ -117,7 +117,5 @@ void GB2WorldContactListener::PostSolve(b2Contact* contact, const b2ContactImpul
     B2_NOT_USED(contact);
     B2_NOT_USED(impulse);
 
-	notifyObjects(contact, "post");
+    notifyObjects(contact, "post");
 }
-
-

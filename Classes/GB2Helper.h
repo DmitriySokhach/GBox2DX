@@ -1,18 +1,18 @@
 /*
  MIT License
- 
+
  Copyright (c) 2012 Chris Hannon / channon.us
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -40,7 +40,7 @@ USING_NS_CC;
 
 inline float randomValueBetween(float low, float high)
 {
-	return ( ((float)rand() / RAND_MAX) * (high - low) + low );
+    return (((float)rand() / RAND_MAX) * (high - low) + low);
 }
 
 #endif
@@ -54,11 +54,11 @@ inline float randomValueBetween(float low, float high)
 template <class T>
 inline float clamp(T v, T min, T max)
 {
-    if(v < min)
+    if (v < min)
     {
         return min;
     }
-    if(v > max)
+    if (v > max)
     {
         return max;
     }
@@ -67,24 +67,26 @@ inline float clamp(T v, T min, T max)
 
 /*
 double round(double r) {
-    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
 }
 */
 
 /**
  * Convert CGPoint to b2Vec2 honoring PTM_RATIO
  */
-inline CCPoint CCPointFromb2Vec2(const b2Vec2 &p)
+inline Vec2 CCPointFromb2Vec2(const b2Vec2 &p)
 {
-    return ccp(p.x * PTM_RATIO, p.y*PTM_RATIO);
+    return Vec2(static_cast<float>(p.x * PTM_RATIO),
+        static_cast<float>(p.y * PTM_RATIO));
 }
 
 /**
  * Convert b2Vec2 to CGPoint honoring PTM_RATIO
  */
-inline b2Vec2 b2Vec2FromCCPoint(const CCPoint &p)
+inline b2Vec2 b2Vec2FromCCPoint(const Vec2 &p)
 {
-    return b2Vec2(p.x/PTM_RATIO, p.y/PTM_RATIO);
+    return b2Vec2(static_cast<float>(p.x / PTM_RATIO),
+        static_cast<float>(p.y / PTM_RATIO));
 }
 
 #endif

@@ -34,14 +34,14 @@ NS_GB_BEGIN
 class GLESDebugDraw : public b2Draw
 {
     float32 mRatio;
-    cocos2d::CCGLProgram* mShaderProgram;
+    cocos2d::GLProgram* mShaderProgram;
     GLint        mColorLocation;
 
-    void initShader( void );
+    void initShader(void);
 public:
     GLESDebugDraw();
 
-    GLESDebugDraw( float32 ratio );
+    GLESDebugDraw(float32 ratio);
 
     virtual void DrawPolygon(const b2Vec2* vertices, int vertexCount, const b2Color& color);
 
@@ -57,7 +57,7 @@ public:
 
     virtual void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color);
 
-    virtual void DrawString(int x, int y, const char* string, ...); 
+    virtual void DrawString(int x, int y, const char* string, ...);
 
     virtual void DrawAABB(b2AABB* aabb, const b2Color& color);
 };

@@ -39,6 +39,8 @@ class GLESDebugDraw;
  * Detects retina display
  */
 
+#include "GLES-Render.h"
+
 NS_GB_BEGIN
 
 class GB2DebugDrawLayer : public cocos2d::CCLayer
@@ -61,7 +63,6 @@ protected:
     virtual void draw(Renderer *renderer, const Mat4& transform, bool transformUpdated);
 
 public:
-
 };
 
 NS_GB_END

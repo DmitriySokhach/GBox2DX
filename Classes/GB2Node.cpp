@@ -1,19 +1,19 @@
 /*
  MIT License
- 
+
  Copyright (c) 2010 Andreas Loew / www.code-and-web.de
  Copyright (c) 2012 Chris Hannon / channon.us
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,207 +32,203 @@ USING_NS_GB;
 
 GB2Node::GB2Node(void)
 {
-	_body = NULL;
-	_world = NULL;
-	ccNode = NULL;
+    _body = NULL;
+    _world = NULL;
+    ccNode = NULL;
 }
 
 GB2Node::~GB2Node()
 {
-	
 }
 
 GB2Node * GB2Node::node()
 {
-	GB2Node * gbnode = new GB2Node();
-	if(gbnode && gbnode->init())
-	{
-		gbnode->autorelease();
-		return gbnode;
-	}
-	CC_SAFE_DELETE(gbnode);
-	return NULL;
+    GB2Node * gbnode = new GB2Node();
+    if (gbnode && gbnode->init())
+    {
+        gbnode->autorelease();
+        return gbnode;
+    }
+    CC_SAFE_DELETE(gbnode);
+    return NULL;
 }
 
 bool GB2Node::init()
 {
-	_world = GB2Engine::sharedInstance()->getworld();
-	deleteLater = false;
-	_tag = -1;
-	_animPhase = 0;
-	return true;
+    _world = GB2Engine::sharedInstance()->getworld();
+    deleteLater = false;
+    _tag = -1;
+    _animPhase = 0;
+    return true;
 }
 
-GB2Node * GB2Node::nodeFromShapeNameandSprite(CCString *shape, b2BodyType bodyType, CCNode *node)
-{	
-	GB2Node * gbnode = new GB2Node();
-	if(gbnode && gbnode->initWithShapeNameAndSprite(shape, bodyType, node))
-	{
-		gbnode->autorelease();
-		return gbnode;
-	}
-	CC_SAFE_DELETE(gbnode);
-	return NULL;
-}
-
-bool GB2Node::initWithShapeNameAndSprite(CCString *shape, b2BodyType bodyType, CCNode *node)
+GB2Node * GB2Node::nodeFromShapeNameandSprite(__String *shape, b2BodyType bodyType, Node *node)
 {
-	init();
-
-	b2BodyDef bodyDef;
-        bodyDef.type = bodyType;
-        bodyDef.position.Set(0,0);
-        bodyDef.angle = 0;
-
-	_body = _world->CreateBody(&bodyDef);
-	
-	_body->SetUserData(this);
-
-	ccNode = node;
-	
-	if(shape)
+    GB2Node * gbnode = new GB2Node();
+    if (gbnode && gbnode->initWithShapeNameAndSprite(shape, bodyType, node))
     {
-        setBodyShape(shape);            
+        gbnode->autorelease();
+        return gbnode;
+    }
+    CC_SAFE_DELETE(gbnode);
+    return NULL;
+}
+
+bool GB2Node::initWithShapeNameAndSprite(__String *shape, b2BodyType bodyType, Node *node)
+{
+    init();
+
+    b2BodyDef bodyDef;
+    bodyDef.type = bodyType;
+    bodyDef.position.Set(0, 0);
+    bodyDef.angle = 0;
+
+    _body = _world->CreateBody(&bodyDef);
+
+    _body->SetUserData(this);
+
+    ccNode = node;
+
+    if (shape)
+    {
+        setBodyShape(shape);
     }
 
-	return true;
+    return true;
 }
 
 void GB2Node::addEdgeFrom(b2Vec2 start, b2Vec2 end)
 {
-	b2PolygonShape *edgeShape = new b2PolygonShape();
+    b2PolygonShape *edgeShape = new b2PolygonShape();
 
-	b2Vec2 vertices[2];
+    b2Vec2 vertices[2];
 
-	vertices[0].Set(start.x, start.y);
-	vertices[1].Set(end.x, end.y);
+    vertices[0].Set(start.x, start.y);
+    vertices[1].Set(end.x, end.y);
 
     //edgeShape.SetAsEdge(start, end);
-	//edgeShape->Set(vertices, 2);
-	edgeShape->SetAsBox(0, end.y-start.y, start, 0);
+    //edgeShape->Set(vertices, 2);
+    edgeShape->SetAsBox(0, end.y - start.y, start, 0);
 
-    _body->CreateFixture(edgeShape,0);
-
+    _body->CreateFixture(edgeShape, 0);
 }
 
 void GB2Node::addBoxFrom(b2Vec2 start, b2Vec2 end)
 {
-	b2PolygonShape *edgeShape = new b2PolygonShape();
+    b2PolygonShape *edgeShape = new b2PolygonShape();
 
-	//b2Vec2 vertices[2];
+    //b2Vec2 vertices[2];
 
-	//vertices[0].Set(start.x, start.y);
-	//vertices[1].Set(end.x, end.y);
+    //vertices[0].Set(start.x, start.y);
+    //vertices[1].Set(end.x, end.y);
 
     //edgeShape.SetAsEdge(start, end);
-	//edgeShape->Set(vertices, 2);
-	edgeShape->SetAsBox(end.x - start.y, end.y-start.y, start, 0);
+    //edgeShape->Set(vertices, 2);
+    edgeShape->SetAsBox(end.x - start.y, end.y - start.y, start, 0);
 
-    _body->CreateFixture(edgeShape,0);
-
+    _body->CreateFixture(edgeShape, 0);
 }
 
-GB2Node* GB2Node::initWithNode(CCNode *node)
+GB2Node* GB2Node::initWithNode(Node *node)
 {
-	return nodeFromShapeNameandSprite(NULL, b2_dynamicBody, node);
+    return nodeFromShapeNameandSprite(NULL, b2_dynamicBody, node);
 }
 
-GB2Node* GB2Node::initWithDynamicBody(CCString *shape, CCNode *node)
+GB2Node* GB2Node::initWithDynamicBody(__String *shape, Node *node)
 {
-	return nodeFromShapeNameandSprite(shape, b2_dynamicBody, node);
+    return nodeFromShapeNameandSprite(shape, b2_dynamicBody, node);
 }
 
-GB2Node* GB2Node::initWithStaticBody(CCString *shape, CCNode *node)
+GB2Node* GB2Node::initWithStaticBody(__String *shape, Node *node)
 {
-	return nodeFromShapeNameandSprite(shape, b2_staticBody, node);
+    return nodeFromShapeNameandSprite(shape, b2_staticBody, node);
 }
 
-GB2Node* GB2Node::initWithKinematicBody(CCString *shape, CCNode *node)
+GB2Node* GB2Node::initWithKinematicBody(__String *shape, Node *node)
 {
-	return nodeFromShapeNameandSprite(shape, b2_kinematicBody, node);
+    return nodeFromShapeNameandSprite(shape, b2_kinematicBody, node);
 }
 
 void GB2Node::destroyBody()
 {
-	if(_body)
-	{
-		_world->DestroyBody(_body);
-		_body = NULL;
-
-	}
+    if (_body)
+    {
+        _world->DestroyBody(_body);
+        _body = NULL;
+    }
 }
 
 void GB2Node::deleteNow()
 {
-	// remove object from cocos2d parent node
-	ccNode->removeFromParentAndCleanup(true);
+    // remove object from cocos2d parent node
+    ccNode->removeFromParentAndCleanup(true);
 
-	this->ccNode = NULL;
+    this->ccNode = NULL;
 
-	// delete the body
-	destroyBody();
+    // delete the body
+    destroyBody();
 }
 
-CCAction *GB2Node::runAction(CCAction *action)
+Action *GB2Node::runAction(Action *action)
 {
     return ccNode->runAction(action);
 }
 
 void GB2Node::stopAllActions()
 {
-	ccNode->stopAllActions();
+    ccNode->stopAllActions();
 }
 
-void GB2Node::stopAction(CCAction *action)
+void GB2Node::stopAction(Action *action)
 {
-	ccNode->stopAction(action);
+    ccNode->stopAction(action);
 }
 
-void GB2Node::setParent(CCNode *parent)
+void GB2Node::setParent(Node *parent)
 {
     parent->addChild(ccNode);
 }
 
-void GB2Node::setParent(CCNode *parent, float z)
+void GB2Node::setParent(Node *parent, int z)
 {
-    parent->addChild(ccNode,z);    
+    parent->addChild(ccNode, z);
 }
 
 float GB2Node::widthInM()
 {
-	return ccNode->getContentSize().width / PTM_RATIO;
+    return static_cast<float>(ccNode->getContentSize().width / PTM_RATIO);
 }
 
 void GB2Node::setLinearDamping(float linearDamping)
 {
-    _body->SetLinearDamping(linearDamping);    
+    _body->SetLinearDamping(linearDamping);
 }
 
 void GB2Node::setAngularDamping(float angularDamping)
 {
-    _body->SetAngularDamping(angularDamping);    
+    _body->SetAngularDamping(angularDamping);
 }
 
-void GB2Node::setBodyShape(CCString *shapeName)
+void GB2Node::setBodyShape(__String *shapeName)
 {
     b2Fixture *f;
-    while((f = _body->GetFixtureList()))
+    while ((f = _body->GetFixtureList()))
     {
-        _body->DestroyFixture(f);        
+        _body->DestroyFixture(f);
     }
-    
-    if(shapeName)
+
+    if (shapeName)
     {
-		GB2ShapeCache *shapeCache = GB2ShapeCache::sharedGB2ShapeCache();
-		shapeCache->addFixturesToBody(_body, shapeName->getCString());
-		ccNode->setAnchorPoint(shapeCache->anchorPointForShape(shapeName->getCString()));        
+        GB2ShapeCache *shapeCache = GB2ShapeCache::sharedGB2ShapeCache();
+        shapeCache->addFixturesToBody(_body, shapeName->getCString());
+        ccNode->setAnchorPoint(shapeCache->anchorPointForShape(shapeName->getCString()));
     }
 }
 
 void GB2Node::setScale(float scale)
 {
     // currently only graphics
-	ccNode->setScale(scale);
+    ccNode->setScale(scale);
 }
 
 b2Fixture *GB2Node::addFixture(b2FixtureDef *fixtureDef)
@@ -240,57 +236,57 @@ b2Fixture *GB2Node::addFixture(b2FixtureDef *fixtureDef)
     return _body->CreateFixture(fixtureDef);
 }
 
-void GB2Node::setBodyAndType(CCString *shapeName, b2BodyType bodyType, b2Vec2 pos)
+void GB2Node::setBodyAndType(__String *shapeName, b2BodyType bodyType, b2Vec2 pos)
 {
-	assert(_body);
-	this->setBodyShape(shapeName);
-	this->setBodyType(bodyType);
-	this->setPhysicsPosition(pos);
+    assert(_body);
+    this->setBodyShape(shapeName);
+    this->setBodyType(bodyType);
+    this->setPhysicsPosition(pos);
 }
 
-void GB2Node::clrCollisionMaskBits(uint16 bits, CCString *fixtureId)
+void GB2Node::clrCollisionMaskBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId  || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.maskBits &= ~bits;        
+            filter.maskBits &= ~bits;
             f->SetFilterData(filter);
         }
-        f = f->GetNext();            
-    }  
+        f = f->GetNext();
+    }
 }
 
-void GB2Node::addCollisionMaskBits(uint16 bits, CCString *fixtureId)
+void GB2Node::addCollisionMaskBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.maskBits |= bits;        
+            filter.maskBits |= bits;
             f->SetFilterData(filter);
         }
-        f = f->GetNext();            
-    } 
+        f = f->GetNext();
+    }
 }
 
-void GB2Node::setCollisionMaskBits(uint16 bits, CCString *fixtureId)
+void GB2Node::setCollisionMaskBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.maskBits = bits;        
+            filter.maskBits = bits;
             f->SetFilterData(filter);
         }
-        f = f->GetNext();            
-    } 
+        f = f->GetNext();
+    }
 }
 
 void GB2Node::setCollisionMaskBits(uint16 bits)
@@ -323,75 +319,76 @@ void GB2Node::setCollisionCategoryBits(uint16 bits)
     this->setCollisionCategoryBits(bits, NULL);
 }
 
-void GB2Node::addCollisionCategoryBits(uint16 bits, CCString *fixtureId)
+void GB2Node::addCollisionCategoryBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.categoryBits |= bits;        
+            filter.categoryBits |= bits;
             f->SetFilterData(filter);
         }
         f = f->GetNext();
-    }        
+    }
 }
 
-void GB2Node::clrCollisionCategoryBits(uint16 bits, CCString *fixtureId)
+void GB2Node::clrCollisionCategoryBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.categoryBits &= ~bits;        
+            filter.categoryBits &= ~bits;
             f->SetFilterData(filter);
         }
         f = f->GetNext();
-    }        
+    }
 }
 
-void GB2Node::setCollisionCategoryBits(uint16 bits, CCString *fixtureId)
+void GB2Node::setCollisionCategoryBits(uint16 bits, __String *fixtureId)
 {
     b2Fixture *f = _body->GetFixtureList();
-    while(f)
+    while (f)
     {
-        if(!fixtureId || (fixtureId->isEqual((CCString *)f->GetUserData())))
+        if (!fixtureId || (fixtureId->isEqual((__String *)f->GetUserData())))
         {
             b2Filter filter = f->GetFilterData();
-            filter.categoryBits = bits;        
+            filter.categoryBits = bits;
             f->SetFilterData(filter);
         }
         f = f->GetNext();
-    }        
+    }
 }
 
-void GB2Node::setKinematicBody(CCString *shapeName, b2Vec2 pos)
+void GB2Node::setKinematicBody(__String *shapeName, b2Vec2 pos)
 {
     this->setBodyAndType(shapeName, b2_kinematicBody, pos);
 }
 
-void GB2Node::setDynamicBody(CCString *shapeName, b2Vec2 pos)
+void GB2Node::setDynamicBody(__String *shapeName, b2Vec2 pos)
 {
     this->setBodyAndType(shapeName, b2_dynamicBody, pos);
 }
 
-void GB2Node::setStaticBody(CCString *shapeName, b2Vec2 pos)
+void GB2Node::setStaticBody(__String *shapeName, b2Vec2 pos)
 {
-    this->setBodyAndType(shapeName, b2_staticBody, pos);    
+    this->setBodyAndType(shapeName, b2_staticBody, pos);
 }
 
 void GB2Node::updateCCFromPhysics(float dt)
 {
-	//CCLog("GB2Node::updateCCFromPhysics");
+    //CCLog("GB2Node::updateCCFromPhysics");
     b2Vec2 position = _body->GetPosition();
-    if(ccNode != NULL)
-	{
-		ccNode->setPosition(ccp(PTM_RATIO*position.x, PTM_RATIO*position.y));
-		ccNode->setRotation(-1 * CC_RADIANS_TO_DEGREES(_body->GetAngle()));
-	}
+    if (ccNode != NULL)
+    {
+        ccNode->setPosition(Vec2(static_cast<float>(PTM_RATIO * position.x),
+            static_cast<float>(PTM_RATIO * position.y)));
+        ccNode->setRotation(-1 * CC_RADIANS_TO_DEGREES(_body->GetAngle()));
+    }
 }
 
 void GB2Node::setFixedRotation(bool fixedRotation)
@@ -471,14 +468,14 @@ void GB2Node::setPhysicsPosition(b2Vec2 pos)
     _body->SetTransform(pos, _body->GetAngle());
 }
 
-void GB2Node::setCcPosition(CCPoint pos)
+void GB2Node::setCcPosition(Vec2 pos)
 {
     assert(_body);
-	ccNode->setPosition(pos);
+    ccNode->setPosition(pos);
     _body->SetTransform(b2Vec2FromCCPoint(pos), _body->GetAngle());
 }
 
-CCPoint GB2Node::ccPosition()
+Vec2 GB2Node::ccPosition()
 {
     return ccNode->getPosition();;
 }
@@ -490,7 +487,7 @@ bool GB2Node::active()
 
 void GB2Node::setActive(bool isActive)
 {
-	_body->SetActive(isActive);    
+    _body->SetActive(isActive);
 }
 
 bool GB2Node::awake()
@@ -535,15 +532,17 @@ void GB2Node::setAngularVelocity(float32 v)
 
 void GB2Node::setVisible(bool isVisible)
 {
-	ccNode->setVisible(isVisible);
+    ccNode->setVisible(isVisible);
 }
 
-void GB2Node::setDisplayFrame(CCSpriteFrame *newFrame)
+void GB2Node::setDisplayFrame(SpriteFrame *newFrame)
 {
-	((CCSprite *)ccNode)->setDisplayFrame(newFrame);
+    ((Sprite *)ccNode)->setSpriteFrame(newFrame);
 }
 
-void GB2Node::setDisplayFrameNamed(CCString *name)
+void GB2Node::setDisplayFrameNamed(__String *name)
 {
-	((CCSprite *)ccNode)->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name->getCString()));
+    ((Sprite *)ccNode)->setSpriteFrame(
+        CCSpriteFrameCache::getInstance()->getSpriteFrameByName(name->getCString())
+        );
 }

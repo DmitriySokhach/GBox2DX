@@ -1,19 +1,19 @@
 /*
  MIT License
- 
+
  Copyright (c) 2010 Andreas Loew / www.code-and-web.de
  Copyright (c) 2012 Chris Hannon / channon.us
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,7 @@
  * handles collisions between objects
  *
  * The implementation asumes that the user data in the b2Body objects
- * is an GB2Object* 
+ * is an GB2Object*
  *
  * It automatically calls selectors for the collision detection.
  * E.g. if you have 2 objects colliding, one with a class named
@@ -56,14 +56,14 @@
  * shape!
  *
  * The functions are called for each contact point. To detect if
- * some objects have contact you need to count the number of 
+ * some objects have contact you need to count the number of
  * begin and end calls or track the object's state change.
  *
  * During the presolve phase it is possible to disable collisions
  * e.g. if a player picksup an object you usually don't want him to
  * bump into the object but just pass through it.
  *
- * In this case 
+ * In this case
  *  aFloor::preContactWithStone(GB2Node* otherObject, GB2Collision *c)
  *  aStone::preContactWithFloor(GB2Node* otherObject, GB2Collision *c)
  * are called
@@ -77,13 +77,13 @@
 class GB2WorldContactListener : public b2ContactListener
 {
 public:
-    GB2WorldContactListener() ;
-	~GB2WorldContactListener() ;    
-	virtual void BeginContact(b2Contact* contact); 
-	virtual void EndContact(b2Contact* contact);
-	virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
-	virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);    
-	void notifyObjects(b2Contact *contact, std::string contactType);
+    GB2WorldContactListener();
+    ~GB2WorldContactListener();
+    virtual void BeginContact(b2Contact* contact);
+    virtual void EndContact(b2Contact* contact);
+    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+    virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+    void notifyObjects(b2Contact *contact, std::string contactType);
 protected:
 };
 

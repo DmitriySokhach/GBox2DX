@@ -17,7 +17,8 @@ The purpose of this library is to accomplish common tasks usually required to ma
 
 ## Setup: ##
 
-- [Work in progress on 1 step setup]
+- Download and extract to <YourAwesomeGame>/cocos2d/extensions direcotry.
+http://dmytrosokhach.blogspot.com/2014/05/updated-gbox2dx-to-work-with-cocos2d-x-3.html
 
 **Android:**
 

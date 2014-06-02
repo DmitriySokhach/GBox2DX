@@ -126,8 +126,9 @@ void GB2ShapeCache::addShapesWithFile(const std::string &plist) {
 
     __Dictionary *metadataDict = (__Dictionary *)dict->objectForKey("metadata");
     int format = static_cast<__String *>(metadataDict->objectForKey("format"))->intValue();
-    ptmRatio = static_cast<__String *>(metadataDict->objectForKey("ptm_ratio"))->floatValue();
-    CCAssert(format == 1, "Format not supported");
+    if (metadataDict->objectForKey("ptm_ratio") != nullptr)
+        ptmRatio = static_cast<__String *>(metadataDict->objectForKey("ptm_ratio"))->floatValue();
+    CCAssert(format == 1 || format == 2, "Format not supported");
 
     __Dictionary *bodyDict = (__Dictionary *)dict->objectForKey("bodies");
 

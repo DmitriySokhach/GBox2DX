@@ -54,6 +54,9 @@
     <ClInclude Include="Classes\GB2Object.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\GB2Sprite.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classes\GB2Engine.cpp">
@@ -78,6 +81,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="Classes\GB2CollisionRegistry.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\GB2Sprite.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

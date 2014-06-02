@@ -43,26 +43,27 @@ class GLESDebugDraw;
 
 NS_GB_BEGIN
 
-class GB2DebugDrawLayer : public cocos2d::CCLayer
+class GB2DebugDrawLayer : public cocos2d::Layer
 {
 protected:
     CC_SYNTHESIZE(b2World*, _world, World);  //!< weak reference to the world
     CC_SYNTHESIZE(GLESDebugDraw*, _debugDraw, DebugDraw); //!< weak reference to a GLESDebugDraw
+    const float _ptmRatio;
+    GLESDebugDraw* mB2DebugDraw;
 
+    GB2DebugDrawLayer(b2World* pB2World, float pPtmRatio);
     ~GB2DebugDrawLayer();
+    
+    static GB2DebugDrawLayer* create(b2World* pB2World, float pPtmRatio);
+    static GB2DebugDrawLayer* create();
+    bool GB2DebugDrawLayer::init() override; 
 
-    /**
-     * Crete and initialize a debug draw layer
-     * @return an initialized GB2DebugDrawLayer
-     */
-    static GB2DebugDrawLayer* init();
-
-    /**
-     * Draw the layer
-     */
-    virtual void draw(Renderer *renderer, const Mat4& transform, bool transformUpdated);
+    Mat4 _modelViewMV;
+    void onDraw();
+    CustomCommand _customCommand;
 
 public:
+    virtual void draw(Renderer *renderer, const Mat4 &transform, bool transformUpdated) override;
 };
 
 NS_GB_END

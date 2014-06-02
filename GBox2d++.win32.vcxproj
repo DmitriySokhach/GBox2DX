@@ -20,6 +20,7 @@
     <ClInclude Include="Classes\GB2Node.h" />
     <ClInclude Include="Classes\GB2Object.h" />
     <ClInclude Include="Classes\GB2ShapeCache.h" />
+    <ClInclude Include="Classes\GB2Sprite.h" />
     <ClInclude Include="Classes\GB2WorldContactListener.h" />
     <ClInclude Include="Classes\GB2Helper.h" />
     <ClInclude Include="Classes\GLES-Render.h" />
@@ -31,9 +32,15 @@
     <ClCompile Include="Classes\GB2Engine.cpp" />
     <ClCompile Include="Classes\GB2Node.cpp" />
     <ClCompile Include="Classes\GB2ShapeCache.cpp" />
+    <ClCompile Include="Classes\GB2Sprite.cpp" />
     <ClCompile Include="Classes\GB2WorldContactListener.cpp" />
     <ClCompile Include="Classes\GLES-Render.cpp" />
     <ClCompile Include="GBox2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\cocos\2d\cocos2d.vcxproj">
+      <Project>{98a51ba8-fc3a-415b-ac8f-8c7bd464e93e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{638F3DE3-CA16-4947-BA6A-55D2AC34A63D}</ProjectGuid>
